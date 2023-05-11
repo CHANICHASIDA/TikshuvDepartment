@@ -34,7 +34,7 @@ namespace TikshuvProject.Controllers
         }
 
         [HttpPost]
-        [Route("Customer")]
+        [Route("GetCustomer")]
         public string newCustomer(Customer customer)
         {
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ProjetDb").ToString());
@@ -86,7 +86,7 @@ namespace TikshuvProject.Controllers
         }
 
         [HttpGet]
-        [Route("Customer")]
+        [Route("NewCustomer")]
         public string GetCustomer()
         {
             List<Customer> customerList = new List<Customer>();

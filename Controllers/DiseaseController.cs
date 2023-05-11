@@ -19,7 +19,7 @@ namespace TikshuvProject.Controllers
             _configuration = configuration;
         }
         [HttpPost]
-        [Route("Disease")]
+        [Route("NewDisease")]
         public string newDisease(Disease disease)
         {
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ProjetDb").ToString());
@@ -57,7 +57,7 @@ namespace TikshuvProject.Controllers
                 return "Failed";
         }
         [HttpGet]
-        [Route("Disease")]
+        [Route("GetDisease")]
         public string GetDisease()
         {
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ProjetDb").ToString());
@@ -88,6 +88,35 @@ namespace TikshuvProject.Controllers
                 return JsonConvert.SerializeObject(response);
 
             }
+        }
+        [HttpPost]
+        [Route("log-in")]
+        public string LogIn(string id)
+        {
+            Disease disease = new Disease();
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ProjetDb").ToString());
+            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Disease WHERE id='" + id + "'", con);
+            DataTable dt = new DataTable();
+            con.Open();
+            da.Fill(dt);
+            Response response = new Response();
+            con.Close();
+            if (dt.Rows.Count > 0)
+            {
+                disease.id = Convert.ToString(dt.Rows[0]["id"]);
+                disease.positiveDate = Convert.ToDateTime(dt.Rows[0]["positiveDate"]);
+                disease.recoveryDate = Convert.ToDateTime(dt.Rows[0]["recoveryDate"]);
+            }
+            if (disease.id != null)
+                return JsonConvert.SerializeObject(disease);
+            else
+            {
+                response.StatusCode = 100;
+                response.ErrorMessage = "No Data Found";
+                return JsonConvert.SerializeObject(response);
+
+            }
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TikshuvProject.Controllers
             _configuration = configuration;
         }
         [HttpPost]
-        [Route("Vaccination")]
+        [Route("NewVaccination")]
         public string newVaccination(Vaccination vaccination)
         {
             int yearp = vaccination.vaccinationDate.Year;
@@ -58,7 +58,7 @@ namespace TikshuvProject.Controllers
             }
         }
         [HttpGet]
-        [Route("Vaccination")]
+        [Route("GetVaccination")]
         public string GetVaccination()
         {
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ProjetDb").ToString());
