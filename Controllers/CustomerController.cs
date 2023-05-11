@@ -208,7 +208,7 @@ namespace TikshuvProject.Controllers
             int s, e, j;
             int[] calander = new int[32];
             string[,] toprint = new string[32, 2];
-            for (int i = 0; i < 31; i++) { calander[i] = 0; }
+            for (int i = 0; i < 32; i++) { calander[i] = 0; }
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ProjetDb").ToString());
             SqlDataAdapter da = new SqlDataAdapter("SELECT CASE WHEN MONTH(positiveDate)!=MONTH(GETDATE())THEN CONVERT(DATETIME,CONCAT(YEAR(GETDATE()), '-',RIGHT(CAST(100+ MONTH(GETDATE()) AS VARCHAR(3)),2) , '-','01')) ELSE positiveDate END positiveDate, CASE WHEN MONTH(recoveryDate)!=MONTH(GETDATE()) THEN CONVERT(DATETIME,CONCAT(YEAR(GETDATE()), '-',RIGHT(CAST(100+ MONTH(GETDATE()) AS VARCHAR(3)),2) , '-',CASE WHEN MONTH(GETDATE()) in (1,3,5,7,8,10,12) THEN '31' ELSE CASE WHEN MONTH(GETDATE())=2 THEN '28' ELSE '30'END END )) ELSE recoveryDate END recoveryDate FROM Disease where MONTH(positiveDate)<=MONTH(GETDATE()) AND MONTH(recoveryDate)>=MONTH(GETDATE())", con);
             DataTable dt = new DataTable();
