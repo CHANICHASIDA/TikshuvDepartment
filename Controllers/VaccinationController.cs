@@ -22,6 +22,10 @@ namespace TikshuvProject.Controllers
         [Route("Vaccination")]
         public string newVaccination(Vaccination vaccination)
         {
+            int yearp = vaccination.vaccinationDate.Year;
+            int monthp = vaccination.vaccinationDate.Month + 100;
+            int dayp = vaccination.vaccinationDate.Day + 100;
+            string datep = yearp.ToString() + '-' + monthp.ToString().Substring(1, 2) + '-' + dayp.ToString().Substring(1, 2);
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("ProjetDb").ToString());
             SqlDataAdapter cmd1 = new SqlDataAdapter("SELECT * FROM Customer WHERE id='" + vaccination.id + "'", con);
             DataTable db = new DataTable();
@@ -32,19 +36,15 @@ namespace TikshuvProject.Controllers
             cmd1 = new SqlDataAdapter("SELECT * FROM Vaccination WHERE id='" + vaccination.id + "'", con);
             db=new DataTable();
             cmd1.Fill(db);
-            while (db.Rows.Count > 4)
+            while (db.Rows.Count >= 4)
                 return "cant enter more vaccination";
-            cmd1 = new SqlDataAdapter("SELECT * FROM Vaccination WHERE vaccinationDate='" + vaccination.vaccinationDate + "' AND id='"+vaccination.id+"'", con);
+            cmd1 = new SqlDataAdapter("SELECT * FROM Vaccination WHERE vaccinationDate='" + vaccination.vaccinationDate + "' AND id='"+datep+"'", con);
             db = new DataTable();
             cmd1.Fill(db);
             while (db.Rows.Count > 0)
                 return "An error has already been inoculated on this day";
             while (vaccination.manufacturer != "moderna" && vaccination.manufacturer != "fizer")
                 return "only fizer ot modena in israel";
-            int yearp = vaccination.vaccinationDate.Year;
-            int monthp = vaccination.vaccinationDate.Month + 100;
-            int dayp = vaccination.vaccinationDate.Day + 100;
-            string datep = yearp.ToString() + '-' + monthp.ToString().Substring(1, 2) + '-' + dayp.ToString().Substring(1, 2);
             SqlCommand cmd = new SqlCommand("INSERT INTO Vaccination(id,vaccinationDate,manufacturer)VALUES('" + vaccination.id + "','" + datep + "','" + vaccination.manufacturer + "')", con);
             int i = cmd.ExecuteNonQuery();
             con.Close();
