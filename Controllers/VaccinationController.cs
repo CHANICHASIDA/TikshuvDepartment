@@ -38,7 +38,7 @@ namespace TikshuvProject.Controllers
             cmd1.Fill(db);
             while (db.Rows.Count >= 4)
                 return "cant enter more vaccination";
-            cmd1 = new SqlDataAdapter("SELECT * FROM Vaccination WHERE vaccinationDate='" + vaccination.vaccinationDate + "' AND id='"+datep+"'", con);
+            cmd1 = new SqlDataAdapter("SELECT * FROM Vaccination WHERE vaccinationDate='" + datep + "' AND id='"+vaccination.id+"'", con);
             db = new DataTable();
             cmd1.Fill(db);
             while (db.Rows.Count > 0)
