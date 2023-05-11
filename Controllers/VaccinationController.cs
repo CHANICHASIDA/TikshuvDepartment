@@ -39,7 +39,7 @@ namespace TikshuvProject.Controllers
             cmd1.Fill(db);
             while (db.Rows.Count > 0)
                 return "An error has already been inoculated on this day";
-            while (vaccination.manufacturer != "moderna" || vaccination.manufacturer != "fizer")
+            while (vaccination.manufacturer != "moderna" && vaccination.manufacturer != "fizer")
                 return "only fizer ot modena in israel";
             int yearp = vaccination.vaccinationDate.Year;
             int monthp = vaccination.vaccinationDate.Month + 100;
